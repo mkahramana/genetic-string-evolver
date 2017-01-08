@@ -73,19 +73,19 @@ def colorize(best_fitness, target):
 
 def main(target, population):
     iterations = 0
-    best_fitness = ''
+    best_fitness = list()
     while target != list(best_fitness):
         fitness = fitness_function(target=target, population=population)
         best_distance = min(fitness.values())
-        best_fitness = min(fitness, key=fitness.get)
+        best_fitness = list(min(fitness, key=fitness.get))
         possibilities = get_possibilities(fitness=fitness)
         chosen = roulette_wheel_selection(population=population, possibilities=possibilities)
         population = mate(chosen=chosen, target=target)
         population = mutate(population=population)
         fitness = fitness_function(target=target, population=population)
-        worst_fitness = max(fitness, key=fitness.get)
-        worst_fitness_index = population.index(list(worst_fitness))
-        population[worst_fitness_index] = list(best_fitness)
+        worst_fitness = list(max(fitness, key=fitness.get))
+        worst_fitness_index = population.index(worst_fitness)
+        population[worst_fitness_index] = best_fitness
         colorized_text = colorize(best_fitness=best_fitness, target=target)
         iterations += 1
         print("Iterations: {} - {} - Distance: {} ".format(iterations, colorized_text, best_distance))
